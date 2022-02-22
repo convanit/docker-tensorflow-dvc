@@ -1,6 +1,6 @@
 FROM tensorflow/tensorflow:2.5.1
 RUN apt update
-RUN apt install -y openjdk-11-jdk
+RUN apt install -y openjdk-17-jdk
 RUN curl -sL https://deb.nodesource.com/setup_15.x | bash -
 RUN apt install -y nodejs
 RUN apt install -y wget
