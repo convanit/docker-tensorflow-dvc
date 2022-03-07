@@ -1,31 +1,31 @@
-FROM tensorflow/tensorflow:2.5.1
-RUN apt update
-RUN mkdir -p /usr/share/man/man1/
-RUN apt install -y default-jre
-RUN apt install -y openjdk-17-jdk
-RUN curl -sL https://deb.nodesource.com/setup_15.x | bash -
-RUN apt install -y nodejs
-RUN apt install -y wget
-RUN wget \
-       https://dvc.org/deb/dvc.list \
-       -O /etc/apt/sources.list.d/dvc.list
-RUN wget -qO - https://dvc.org/deb/iterative.asc | apt-key add -
-RUN apt update
-RUN apt install -y dvc
+ARG TENSORFLOW_VERSION="2.5.1"
+FROM tensorflow/tensorflow:${TENSORFLOW_VERSION}
 
 
-RUN pip install pandas
-RUN pip install pyyaml
-RUN pip install numpy scipy scikit-learn
-RUN pip install opencv-python
-RUN pip install scikit-image
-RUN pip install albumentations
-RUN pip install seaborn
+ARG NODEJS_VERSION="16"
+ENV NODEJS_VERSION=$NODEJS_VERSION
 
+RUN \
+       curl -sqL "https://deb.nodesource.com/setup_${NODEJS_VERSION}.x" | bash - && \
+       curl -sqL "https://dvc.org/deb/dvc.list" > /etc/apt/sources.list.d/dvc.list && \
+       curl -sqL "https://dvc.org/deb/iterative.asc" | apt-key add - && \
+       mkdir -p /usr/share/man/man1; \
+       apt update && \
+       apt install -y default-jre openjdk-17-jdk nodejs wget dvc &&\
+       rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /work
+RUN pip install pandas \
+       pyyaml \
+       numpy \
+       scipy \
+       scikit-learn \
+       opencv-python \
+       scikit-image \
+       albumentations \
+       seaborn
 
-RUN mkdir /data
-WORKDIR /work/
+RUN mkdir /work /data
+
+WORKDIR /work
 
 CMD ["java", "--version"]
