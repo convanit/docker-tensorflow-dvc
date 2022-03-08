@@ -11,7 +11,7 @@ RUN \
        curl -sqL "https://dvc.org/deb/iterative.asc" | apt-key add - && \
        mkdir -p /usr/share/man/man1; \
        apt update && \
-       apt install -y default-jre openjdk-17-jdk nodejs wget dvc &&\
+       apt install -y default-jre openjdk-11-jdk nodejs wget dvc &&\
        rm -rf /var/lib/apt/lists/*
 
 RUN pip install pandas \
