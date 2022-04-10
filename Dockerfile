@@ -9,9 +9,10 @@ RUN \
        curl -sqL "https://deb.nodesource.com/setup_${NODEJS_VERSION}.x" | bash - && \
        curl -sqL "https://dvc.org/deb/dvc.list" > /etc/apt/sources.list.d/dvc.list && \
        curl -sqL "https://dvc.org/deb/iterative.asc" | apt-key add - && \
-       mkdir -p /usr/share/man/man1; \
+       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+       mkdir -p /usr/share/manecho "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null/man1; \
        apt update && \
-       apt install -y default-jre openjdk-11-jdk nodejs wget dvc &&\
+       apt install -y default-jre openjdk-11-jdk nodejs wget dvc docker-ce-cli &&\
        rm -rf /var/lib/apt/lists/*
 
 RUN pip install pandas \
